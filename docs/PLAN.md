@@ -11,7 +11,7 @@ PR-sized milestones, ~40 h of code total, targeting 4 working baselines in
 - corpus.yaml SHAs: fetched via `git ls-remote` at M3 time (latest release
   tag, else default-branch HEAD), then pinned
 - Dev machine is Windows without `make`/`rg`/`uv` (git 2.52, Python 3.14,
-  Ollama present): the Makefile is a thin wrapper over `uv run grey-bench …`;
+  Ollama present): the Makefile is a thin wrapper over `uv run spelunk-bench …`;
   install `uv` and `ripgrep` via winget before M1
 
 ## Milestones
@@ -29,18 +29,18 @@ PR-sized milestones, ~40 h of code total, targeting 4 working baselines in
 | M8 | ck adapter (timed index step, parse `--jsonl`) | 3h | 3 | |
 | M9 | grepai adapter (pinned Ollama embedding model, parse JSON) | 3h | 3 | |
 | M10 | Agentic adapter: tool-use loop (grep/read/list + mandatory final_answer), iteration cap, token accounting | 6h | 4 | |
-| M11 | grey stub adapter + README/docs polish + first full bench run | 2h | 4 | |
+| M11 | spelunk stub adapter + README/docs polish + first full bench run | 2h | 4 | |
 
 Labeling (150–250 queries, two passes per LABELING.md) is separate
 person-time, running in parallel from week 2 once M2 lands. Dataset freeze
-(`dataset-v1` tag) happens before grey is ever benchmarked.
+(`dataset-v1` tag) happens before spelunk is ever benchmarked.
 
 ## Verification per milestone
 
 - **M0**: initial commit on `main` contains the three docs and `.gitignore`.
 - **M1–M5**: `uv run pytest` green, `uv run ruff check` clean, each new CLI
   subcommand runs against the fixture repo.
-- **M6**: `uv run grey-bench bench --adapters ripgrep --repos itsdangerous`
+- **M6**: `uv run spelunk-bench bench --adapters ripgrep --repos itsdangerous`
   produces a well-formed `results.json` and readable `report.md`.
 - **M7+**: CI green on GitHub; every new adapter is benched on itsdangerous
   before the full corpus.

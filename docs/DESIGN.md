@@ -1,10 +1,10 @@
-# grey-bench design
+# spelunk-bench design
 
-grey-bench measures how well code retrieval tools answer natural-language
+spelunk-bench measures how well code retrieval tools answer natural-language
 *"where is X implemented?"* queries against real open-source repositories,
 scored against hand-labeled ground truth.
 
-It exists to evaluate [grey](https://github.com/) (the author's retrieval
+It exists to evaluate [spelunk](https://github.com/) (the author's retrieval
 tool), but it is built as a neutral benchmark first: every design choice below
 is justified by fairness or reproducibility, not by what any particular tool
 is good at. The threats-to-validity section states plainly where author bias
@@ -18,7 +18,7 @@ could enter and what the benchmark does about it.
 2. **Reproducible runs**: pinned repo SHAs, pinned tool and model versions,
    one command (`make bench`) from clean checkout to markdown report.
 3. **Credible labels**: manually authored queries, two-pass labeling with a
-   consistency check, published protocol, dataset frozen before grey is
+   consistency check, published protocol, dataset frozen before spelunk is
    measured.
 
 ### Non-goals
@@ -76,7 +76,7 @@ repos:
     size_class: medium        # small | medium | large
 ```
 
-**Clone strategy** (`grey-bench corpus`, wrapped by `make corpus`): per repo,
+**Clone strategy** (`spelunk-bench corpus`, wrapped by `make corpus`): per repo,
 `git init && git fetch --depth 1 origin <sha> && git checkout FETCH_HEAD` into
 `corpus/{name}/`. Shallow (sentry would otherwise be gigabytes of history),
 exact (no branch drift), idempotent (skips when HEAD already equals the pinned
@@ -111,16 +111,16 @@ JSONL, one query per line, under `queries/`:
 
 **Layout**: `queries/pass1/` and `queries/pass2/` hold the two independent
 labeling passes; `queries/final/` holds the reconciled dataset the benchmark
-actually runs. `grey-bench validate` enforces the schema plus, when the corpus
+actually runs. `spelunk-bench validate` enforces the schema plus, when the corpus
 is cloned, that every gold path exists at the pinned SHA and every span is
-within the file. `grey-bench consistency` diffs pass1 against pass2 (details
+within the file. `spelunk-bench consistency` diffs pass1 against pass2 (details
 in `LABELING.md`).
 
 Target: 150–250 queries, roughly 20–30 per repo, mixed difficulty.
 
 ## 5. Adapters
 
-One interface, implemented in `src/grey_bench/adapters/`:
+One interface, implemented in `src/spelunk_bench/adapters/`:
 
 ```python
 @dataclass
@@ -195,10 +195,10 @@ The agentic adapter is the ceiling analogue of ripgrep's floor: expensive and
 slow, but a measure of what an LLM with basic tools achieves — including its
 token cost, which is a first-class metric, not a footnote.
 
-### 5.4 grey (`grey_stub.py`)
+### 5.4 spelunk (`spelunk_stub.py`)
 
 Same interface, raises `NotImplementedError` with a pointer, registered but
-excluded from runs until it exists. Grey gets no hooks the other adapters
+excluded from runs until it exists. Spelunk gets no hooks the other adapters
 lack: when it lands, it implements the same three methods and is subject to
 the same frozen dataset.
 
@@ -262,7 +262,7 @@ most-tested code.
 
 ## 7. Runner, results, report
 
-`grey-bench bench [--adapters a,b] [--repos r1,r2] [--queries path]`
+`spelunk-bench bench [--adapters a,b] [--repos r1,r2] [--queries path]`
 (wrapped by `make bench`; `make smoke` = ripgrep on itsdangerous only):
 
 1. Verify corpus checkouts match pinned SHAs (refuse to run on drift).
@@ -272,9 +272,9 @@ most-tested code.
    recorded per query and surfaced in the report — a crashing adapter shows
    up as failures, not as absence.
 4. Write `results/{run_id}/results.json`: run manifest (timestamp, git SHA of
-   grey-bench itself, corpus SHAs, adapter versions, model IDs, hardware,
+   spelunk-bench itself, corpus SHAs, adapter versions, model IDs, hardware,
    query-set checksum) + raw per-query records.
-5. `grey-bench report` renders `report.md` from `results.json`: headline
+5. `spelunk-bench report` renders `report.md` from `results.json`: headline
    comparison table, per-repo and per-difficulty tables, cost/latency table,
    and the full pin manifest. Regenerable without re-running.
 
@@ -288,9 +288,9 @@ disclosed in the report (a `--trials n` flag is future work, not promised).
 Stated here because a benchmark that hides its weaknesses invites fair
 dismissal.
 
-1. **Author bias** — the benchmark author also builds grey. Mitigations: the
+1. **Author bias** — the benchmark author also builds spelunk. Mitigations: the
    query dataset is frozen and tagged (checksum recorded in every report)
-   *before* grey is ever benchmarked; queries are authored from repo
+   *before* spelunk is ever benchmarked; queries are authored from repo
    documentation and issues, not from knowledge of any tool's strengths; the
    labeling protocol is published and label disputes via PR are welcome.
 2. **Training-data contamination** — all corpus repos are public and almost
@@ -300,7 +300,7 @@ dismissal.
    which stale memorization tends to get wrong. Reports carry this caveat.
 3. **Single labeler** — no inter-annotator agreement is possible. Proxy:
    two labeling passes on different days with an automated disagreement
-   report (`grey-bench consistency`), reconciliation notes kept in the data.
+   report (`spelunk-bench consistency`), reconciliation notes kept in the data.
 4. **Small n** — 20–30 queries per repo means per-repo slices are noisy.
    Tables always show `n`; claims belong at the overall level.
 5. **Hardware sensitivity** — latency numbers are machine-relative. The
@@ -323,9 +323,9 @@ Ollama dependencies); they run locally. CI proves the harness, not the tools.
 ## 10. Repository layout
 
 ```
-grey-bench/
+spelunk-bench/
 ├── pyproject.toml            # uv-managed; runtime deps: pyyaml (+ anthropic extra)
-├── Makefile                  # thin wrappers over `uv run grey-bench …`
+├── Makefile                  # thin wrappers over `uv run spelunk-bench …`
 ├── corpus.yaml
 ├── README.md
 ├── docs/
@@ -334,17 +334,17 @@ grey-bench/
 │   └── PLAN.md               # milestone plan
 ├── queries/
 │   ├── pass1/  pass2/  final/
-├── src/grey_bench/
+├── src/spelunk_bench/
 │   ├── cli.py                # subcommands: corpus, validate, consistency, bench, report
 │   ├── corpus.py  queries.py  consistency.py  metrics.py  runner.py  report.py
 │   └── adapters/
-│       ├── base.py  ripgrep.py  ck.py  grepai.py  agentic.py  grey_stub.py
+│       ├── base.py  ripgrep.py  ck.py  grepai.py  agentic.py  spelunk_stub.py
 ├── tests/                    # incl. tests/fixtures/ tiny synthetic repo
 ├── results/                  # gitignored
 └── .github/workflows/ci.yml
 ```
 
 Windows note: the development machine is Windows; `make` is optional. Every
-Makefile target is one `uv run grey-bench …` command, documented in the
+Makefile target is one `uv run spelunk-bench …` command, documented in the
 README, so the Makefile is convenience for CI and Unix users, never the only
 path.

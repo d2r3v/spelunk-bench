@@ -1,13 +1,13 @@
 # Labeling protocol
 
-This document is the contract for the grey-bench ground truth. Every query in
+This document is the contract for the spelunk-bench ground truth. Every query in
 `queries/final/` was produced by following it; disputes about labels should
 argue from this text (and are welcome as PRs or issues).
 
 The dataset is labeled by a single person in **two independent passes on
 different days**, machine-checked for consistency, then manually reconciled.
 The reconciled `queries/final/` set is **frozen and checksummed before any
-run that includes grey** — see "Freezing" below.
+run that includes spelunk** — see "Freezing" below.
 
 ## 1. What a query is
 
@@ -32,7 +32,7 @@ Authoring rules:
 4. **One intent per query.** "Where is retry logic and how is backoff
    configured?" is two queries.
 5. **No tool-informed selection.** Queries are never added, dropped, or
-   reworded because of how any adapter — especially grey — performs on them.
+   reworded because of how any adapter — especially spelunk — performs on them.
    After the freeze this is enforced by the checksum; before the freeze it is
    a rule of conduct, stated here so readers can hold the author to it.
 
@@ -101,7 +101,7 @@ When torn between two levels, pick the harder one and say why in `notes`.
 3. **Pass 2** (`queries/pass2/{repo}.jsonl`): re-label the *same query
    strings* from scratch — fresh answers, spans, and difficulty, without
    looking at pass 1.
-4. **Consistency check** — `grey-bench consistency` compares passes per query
+4. **Consistency check** — `spelunk-bench consistency` compares passes per query
    id and flags:
    - answer-set mismatch (paths differ between passes),
    - span drift: same path but boundaries differ by more than 10 lines on
@@ -121,7 +121,7 @@ alongside the dataset as a labeling-quality statement.
 
 ## 6. Validation
 
-`grey-bench validate` must pass on every dataset file before it is committed:
+`spelunk-bench validate` must pass on every dataset file before it is committed:
 
 - schema: required fields, `{repo}-NNNN` unique ids, known `repo`,
   `difficulty` ∈ {easy, medium, hard}, `answer_type` consistent with
@@ -133,11 +133,11 @@ alongside the dataset as a labeling-quality statement.
 
 When labeling is complete, `queries/final/` is frozen:
 
-1. `grey-bench validate` and the consistency report are clean/committed.
+1. `spelunk-bench validate` and the consistency report are clean/committed.
 2. The dataset gets a git tag (`dataset-v1`) and its SHA-256 checksum is
    recorded; every benchmark report includes the checksum of the query set it
    ran against.
-3. The freeze happens **before grey is benchmarked for the first time**.
+3. The freeze happens **before spelunk is benchmarked for the first time**.
    Any later dataset change (new queries, label fixes from disputes) bumps
    the tag (`dataset-v1.1`), and results across different dataset versions
    are never mixed in one table.
