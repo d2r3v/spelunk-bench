@@ -328,6 +328,8 @@ spelunk-bench/
 ├── Makefile                  # thin wrappers over `uv run spelunk-bench …`
 ├── corpus.yaml
 ├── README.md
+├── LICENSE
+├── CITATION.cff
 ├── docs/
 │   ├── DESIGN.md             # this file
 │   ├── LABELING.md           # labeling protocol
@@ -344,7 +346,6 @@ spelunk-bench/
 └── .github/workflows/ci.yml
 ```
 
-Windows note: the development machine is Windows; `make` is optional. Every
-Makefile target is one `uv run spelunk-bench …` command, documented in the
-README, so the Makefile is convenience for CI and Unix users, never the only
-path.
+Dev environment: development happens on Linux. Every Makefile target is one
+`uv run spelunk-bench …` command, documented in the README, so the Makefile
+is convenience, never the only path.

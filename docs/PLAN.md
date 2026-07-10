@@ -10,9 +10,11 @@ PR-sized milestones, ~40 h of code total, targeting 4 working baselines in
 - Agentic default model: **claude-sonnet-5** (configurable)
 - corpus.yaml SHAs: fetched via `git ls-remote` at M3 time (latest release
   tag, else default-branch HEAD), then pinned
-- Dev machine is Windows without `make`/`rg`/`uv` (git 2.52, Python 3.14,
-  Ollama present): the Makefile is a thin wrapper over `uv run spelunk-bench …`;
-  install `uv` and `ripgrep` via winget before M1
+- Dev machine is Linux, with `make`/`rg`/`uv` available natively: the
+  Makefile is a thin wrapper over `uv run spelunk-bench …` and is the
+  primary path, not just a CI/Unix convenience
+- License: MIT, `Copyright (c) 2026 Dhruv Bhardwaj`
+- pyproject.toml: `authors = [{name = "Dhruv Bhardwaj", email = "D2r3v@users.noreply.github.com"}]`
 
 ## Milestones
 

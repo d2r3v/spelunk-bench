@@ -1,0 +1,9 @@
+cff-version: 1.2.0
+message: "If you use this benchmark, please cite it as below."
+title: "spelunk-bench"
+authors:
+  - family-names: Bhardwaj
+    given-names: Dhruv
+date-released: 2026-07-09
+url: "https://github.com/d2r3v/spelunk-bench"
+license: MIT
