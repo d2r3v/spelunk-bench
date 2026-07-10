@@ -21,7 +21,7 @@ PR-sized milestones, ~40 h of code total, targeting 4 working baselines in
 | # | Milestone | Est | Week | Status |
 |---|---|---|---|---|
 | M0 | git init, DESIGN.md, LABELING.md, PLAN.md, initial commit | 1h | 1 | **done** |
-| M1 | Scaffold: pyproject (uv), package layout, CLI skeleton, ruff + pytest, CI lint+test, README with results-table placeholder | 3h | 1 | |
+| M1 | Scaffold: pyproject (uv), package layout, CLI skeleton, ruff + pytest, CI lint+test, README with results-table placeholder | 3h | 1 | **done** |
 | M2 | Query schema + JSONL validator + two-pass consistency checker + tests | 4h | 1 | |
 | M3 | corpus.yaml with real pinned SHAs + `corpus` command + `make corpus` | 3h | 1–2 | |
 | M4 | Adapter interface (`base.py`) + ripgrep adapter + tests on fixture repo | 4h | 2 | |

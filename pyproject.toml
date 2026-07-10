@@ -1,0 +1,43 @@
+[project]
+name = "spelunk-bench"
+version = "0.1.0"
+description = "A benchmark for code-retrieval tools: natural-language 'where is X implemented?' queries scored against hand-labeled ground truth."
+readme = "README.md"
+requires-python = ">=3.10"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{ name = "Dhruv Bhardwaj", email = "D2r3v@users.noreply.github.com" }]
+keywords = ["benchmark", "code-search", "retrieval", "evaluation"]
+dependencies = ["pyyaml>=6.0"]
+
+[project.optional-dependencies]
+# The agentic adapter (M10) needs the Anthropic SDK; kept optional so the
+# harness and free adapters install without it.
+anthropic = ["anthropic>=0.40"]
+
+[project.scripts]
+spelunk-bench = "spelunk_bench.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/d2r3v/spelunk-bench"
+Repository = "https://github.com/d2r3v/spelunk-bench"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/spelunk_bench"]
+
+[dependency-groups]
+dev = ["ruff>=0.6", "pytest>=8.0"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

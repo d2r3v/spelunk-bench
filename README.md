@@ -9,13 +9,42 @@ for the labeling protocol, and [docs/PLAN.md](docs/PLAN.md) for the milestone pl
 
 ## Status
 
-Early scaffolding — no adapters or runner yet. See [docs/PLAN.md](docs/PLAN.md)
-for what's done and what's next.
+Early scaffolding — the CLI skeleton exists; adapters and the runner do not
+yet. See [docs/PLAN.md](docs/PLAN.md) for what's done and what's next.
+
+## Install
+
+```sh
+uv sync --all-extras   # or: make install
+```
+
+## Usage
+
+Every `make` target is a thin wrapper over a `uv run spelunk-bench …` command:
+
+```sh
+make corpus   # uv run spelunk-bench corpus   — clone corpus repos at pinned SHAs
+make bench    # uv run spelunk-bench bench     — run adapters, write results.json
+make smoke    # ripgrep on itsdangerous only
+make test     # uv run pytest
+make lint     # uv run ruff check . && ruff format --check .
+```
 
 ## Results
 
-_(placeholder — populated by `spelunk-bench report` / `make bench` once the
-harness and adapters land)_
+_Populated by `spelunk-bench report` (`make bench`) once the harness and
+adapters land. Headline shape:_
+
+| adapter | success@10 | recall@10 (file) | recall@10 (span) | MRR | latency p50 |
+|---|---|---|---|---|---|
+| ripgrep | — | — | — | — | — |
+| ck | — | — | — | — | — |
+| grepai | — | — | — | — | — |
+| agentic | — | — | — | — | — |
+
+_Every report also carries the full pin manifest (corpus SHAs, tool/model
+versions, hardware, query-set checksum) and the query-set version it ran
+against._
 
 ## About
 
