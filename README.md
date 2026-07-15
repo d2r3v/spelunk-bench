@@ -39,6 +39,7 @@ adapters land. Headline shape:_
 | adapter | success@10 | recall@10 (file) | recall@10 (span) | MRR | latency p50 |
 |---|---|---|---|---|---|
 | ripgrep | — | — | — | — | — |
+| spelunk | — | — | — | — | — |
 | ck | — | — | — | — | — |
 | grepai | — | — | — | — | — |
 | agentic | — | — | — | — | — |
@@ -53,7 +54,7 @@ Built and maintained by Dhruv Bhardwaj. Query labels were hand-annotated by
 the author; the labeling protocol is documented in
 [docs/LABELING.md](docs/LABELING.md).
 
-The author also develops spelunk, one of the tools evaluated; the harness,
+The author also develops [spelunk](https://github.com/d2r3v/spelunk), one of the tools evaluated; the harness,
 labels, and metrics are tool-agnostic and reproducible via `make bench`.
 
 ## License
