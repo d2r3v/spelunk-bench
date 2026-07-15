@@ -9,8 +9,9 @@ for the labeling protocol, and [docs/PLAN.md](docs/PLAN.md) for the milestone pl
 
 ## Status
 
-Early scaffolding — the CLI skeleton exists; adapters and the runner do not
-yet. See [docs/PLAN.md](docs/PLAN.md) for what's done and what's next.
+Early scaffolding — the CLI skeleton plus query validation and the two-pass
+consistency checker (`validate`, `consistency`) work; the corpus, adapters, and
+runner do not yet. See [docs/PLAN.md](docs/PLAN.md) for what's done and next.
 
 ## Install
 

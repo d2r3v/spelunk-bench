@@ -12,6 +12,8 @@ from spelunk_bench import __version__
 from spelunk_bench.cli import build_parser, main
 
 SUBCOMMANDS = ["corpus", "validate", "consistency", "bench", "report"]
+# Subcommands still awaiting implementation (validate/consistency landed in M2).
+STUB_SUBCOMMANDS = ["corpus", "bench", "report"]
 
 
 def test_all_subcommands_registered():
@@ -33,7 +35,7 @@ def test_no_args_prints_help_and_succeeds(capsys):
         assert name in out
 
 
-@pytest.mark.parametrize("name", SUBCOMMANDS)
+@pytest.mark.parametrize("name", STUB_SUBCOMMANDS)
 def test_stub_subcommands_fail_loudly(name, capsys):
     rc = main([name])
     assert rc == 1
